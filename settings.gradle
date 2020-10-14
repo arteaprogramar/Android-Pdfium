@@ -1,0 +1,2 @@
+include ':app', ':pdfium'
+rootProject.name = "Android-Pdfium"
