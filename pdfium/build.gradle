@@ -1,4 +1,75 @@
-apply plugin: 'com.android.library'
+plugins {
+    id 'com.android.library'
+    id 'com.jfrog.bintray' version '1.8.5'
+    id 'maven-publish'
+}
+
+group = 'arte.programar'
+version = '1.0.0'
+
+// Use ./gradlew bintrayUpload to upload
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    publications = ['release']
+
+    pkg {
+        repo = 'Android'
+        name = 'arte.programar.pdfium'
+        licenses = ["Apache-2.0"]
+        vcsUrl = 'https://github.com/arteaprogramar/Android-Pdfium.git'
+        websiteUrl = 'https://github.com/arteaprogramar/Android-Pdfium'
+
+        version {
+            name = project.version
+        }
+    }
+}
+
+def pomConfig = {
+    licenses {
+        license {
+            name 'The Apache Software License, Version 2.0'
+            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            distribution 'repo'
+        }
+    }
+
+    scm {
+        url 'https://github.com/arteaprogramar/Android-Pdfium'
+    }
+}
+
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                artifact sourceJar
+                groupId group
+                artifactId 'pdfium'
+                version version
+                pom.withXml {
+                    def root = asNode()
+                    root.appendNode('description', 'PDFium by Arte al Programar for Android')
+                    root.appendNode('name', 'Android PDFium')
+                    root.appendNode('url', 'https://github.com/arteaprogramar/Android-Pdfium')
+                    root.children().last() + pomConfig
+                }
+            }
+        }
+    }
+}
+
 
 android {
     compileSdkVersion 30
@@ -6,7 +77,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 30
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         externalNativeBuild {
             cmake {
                 arguments "-DANDROID_ARM_NEON=TRUE", "-DANDROID_STL=c++_static", "-DANDROID_PLATFORM=android-30"

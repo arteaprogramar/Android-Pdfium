@@ -11,3 +11,17 @@ PDFium by "Arte al Programar": It's a library that has origin on [PdfiumAndroid]
 - The extractText(int page) method has been added.
 - Supported android architectures: 'arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64'
 - Ndk Version : 21.3.6528147
+
+## Installation
+
+Include library in your project.
+
+```
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    ...
+    implementation 'arte.programar:pdfium:1.0.0'
+    ...
+}
+
+```
