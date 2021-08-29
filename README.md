@@ -30,6 +30,6 @@ build.gradle (Module: app)
 
 dependencies {
     ...
-    implementation 'com.github.arteaprogramar:Android-Pdfium:2.2.3'
+    implementation 'com.github.arteaprogramar:Android-Pdfium:2.2.4'
 }
 ```

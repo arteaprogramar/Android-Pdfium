@@ -2,3 +2,5 @@ jdk:
   - openjdk11
 before_install:
   - yes | sdkmanager --install "ndk;21.4.7075529" "build-tools;30.0.3" "platforms;android-30"
+install:
+  - ./gradlew build :lib:publishToMavenLocal
