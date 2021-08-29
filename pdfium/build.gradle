@@ -22,7 +22,6 @@ android {
         versionName _version
         externalNativeBuild {
             cmake {
-
                 arguments "-DANDROID_STL=c++_static",
                         "-DANDROID_PLATFORM=android-21",
                         "-DANDROID_ARM_NEON=TRUE"
