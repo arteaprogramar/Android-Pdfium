@@ -1,11 +1,25 @@
 plugins {
     id 'com.android.library'
+    id 'maven-publish'
 }
 
 def _group = 'arte.programar'
-def _version = '1.7'
-def _versioncode = 2
+def _version = '3.0.0'
+def _versioncode = 3
 def _artifact = 'pdfium'
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = _group
+                artifactId = _artifact
+                version = _version
+            }
+        }
+    }
+}
 
 task sourceJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
