@@ -17,11 +17,19 @@ PDFium by "Arte al Programar": It's a library that has origin on [PdfiumAndroid]
 Include library in your project.
 
 ```
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    ...
-    implementation 'arte.programar:pdfium:1.0.0'
-    ...
+build.gradle (Project)
+
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
 }
 
+
+build.gradle (Module: app)
+
+dependencies {
+    ...
+    implementation 'com.github.arteaprogramar:Android-Pdfium:2.1'
+}
 ```
