@@ -30,8 +30,8 @@ public class Pdfium {
     private static final String TAG = Pdfium.class.getSimpleName();
 
     static {
-        System.loadLibrary("pdfium");
-        System.loadLibrary("pdfium_jni");
+        System.loadLibrary("pdfsdk");
+        System.loadLibrary("pdfsdk_jni");
     }
 
     private final Map<Integer, Long> mNativePagesPtr = new ArrayMap<>();

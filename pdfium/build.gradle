@@ -1,86 +1,30 @@
 plugins {
     id 'com.android.library'
-    id 'com.jfrog.bintray' version '1.8.5'
-    id 'maven-publish'
 }
 
-group = 'arte.programar'
-version = '1.0.0'
-
-// Use ./gradlew bintrayUpload to upload
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-
-    publications = ['release']
-
-    pkg {
-        repo = 'Android'
-        name = 'arte.programar.pdfium'
-        licenses = ["Apache-2.0"]
-        vcsUrl = 'https://github.com/arteaprogramar/Android-Pdfium.git'
-        websiteUrl = 'https://github.com/arteaprogramar/Android-Pdfium'
-
-        version {
-            name = project.version
-        }
-    }
-}
-
-def pomConfig = {
-    licenses {
-        license {
-            name 'The Apache Software License, Version 2.0'
-            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-            distribution 'repo'
-        }
-    }
-
-    scm {
-        url 'https://github.com/arteaprogramar/Android-Pdfium'
-    }
-}
+def _group = 'arte.programar'
+def _version = '1.7'
+def _versioncode = 2
+def _artifact = 'pdfium'
 
 task sourceJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
     classifier 'sources'
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
-                artifact sourceJar
-                groupId group
-                artifactId 'pdfium'
-                version version
-                pom.withXml {
-                    def root = asNode()
-                    root.appendNode('description', 'PDFium by Arte al Programar for Android')
-                    root.appendNode('name', 'Android PDFium')
-                    root.appendNode('url', 'https://github.com/arteaprogramar/Android-Pdfium')
-                    root.children().last() + pomConfig
-                }
-            }
-        }
-    }
-}
-
-
 android {
     compileSdkVersion 30
+    ndkVersion "21.4.7075529"
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0.0"
         externalNativeBuild {
             cmake {
-                arguments "-DANDROID_ARM_NEON=TRUE", "-DANDROID_STL=c++_static", "-DANDROID_PLATFORM=android-30"
+
+                arguments "-DANDROID_STL=c++_static",
+                        "-DANDROID_PLATFORM=android-21",
+                        "-DANDROID_ARM_NEON=TRUE"
+
                 cppFlags "-std=c++11 -frtti -fexceptions"
             }
         }
@@ -99,6 +43,15 @@ android {
             path "src/main/cpp/CMakeLists.txt"
         }
     }
+    /**
+     * https://developer.android.com/guide/topics/manifest/application-element#extractNativeLibs
+     * https://stackoverflow.com/questions/42998083/setting-androidextractnativelibs-false-to-reduce-app-size
+     **/
+    /**packagingOptions {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }**/
 }
 
 dependencies {

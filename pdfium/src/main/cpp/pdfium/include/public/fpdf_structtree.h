@@ -72,7 +72,7 @@ FPDF_StructTree_GetChildAtIndex(FPDF_STRUCTTREE struct_tree, int index);
 //          |buffer| will not be modified.
 FPDF_EXPORT unsigned long FPDF_CALLCONV
 FPDF_StructElement_GetAltText(FPDF_STRUCTELEMENT struct_element,
-                              void *buffer,
+                              void* buffer,
                               unsigned long buflen);
 
 // Experimental API.
@@ -93,7 +93,7 @@ FPDF_StructElement_GetAltText(FPDF_STRUCTELEMENT struct_element,
 //          |buffer| will not be modified.
 FPDF_EXPORT unsigned long FPDF_CALLCONV
 FPDF_StructElement_GetID(FPDF_STRUCTELEMENT struct_element,
-                         void *buffer,
+                         void* buffer,
                          unsigned long buflen);
 
 // Experimental API.
@@ -114,7 +114,7 @@ FPDF_StructElement_GetID(FPDF_STRUCTELEMENT struct_element,
 //          |buffer| will not be modified.
 FPDF_EXPORT unsigned long FPDF_CALLCONV
 FPDF_StructElement_GetLang(FPDF_STRUCTELEMENT struct_element,
-                           void *buffer,
+                           void* buffer,
                            unsigned long buflen);
 
 // Experimental API.
@@ -137,7 +137,7 @@ FPDF_StructElement_GetLang(FPDF_STRUCTELEMENT struct_element,
 FPDF_EXPORT unsigned long FPDF_CALLCONV
 FPDF_StructElement_GetStringAttribute(FPDF_STRUCTELEMENT struct_element,
                                       FPDF_BYTESTRING attr_name,
-                                      void *buffer,
+                                      void* buffer,
                                       unsigned long buflen);
 
 // Function: FPDF_StructElement_GetMarkedContentID
@@ -167,7 +167,7 @@ FPDF_StructElement_GetMarkedContentID(FPDF_STRUCTELEMENT struct_element);
 //           |buffer| will not be modified.
 FPDF_EXPORT unsigned long FPDF_CALLCONV
 FPDF_StructElement_GetType(FPDF_STRUCTELEMENT struct_element,
-                           void *buffer,
+                           void* buffer,
                            unsigned long buflen);
 
 // Function: FPDF_StructElement_GetTitle
@@ -187,7 +187,7 @@ FPDF_StructElement_GetType(FPDF_STRUCTELEMENT struct_element,
 //           |buffer| will not be modified.
 FPDF_EXPORT unsigned long FPDF_CALLCONV
 FPDF_StructElement_GetTitle(FPDF_STRUCTELEMENT struct_element,
-                            void *buffer,
+                            void* buffer,
                             unsigned long buflen);
 
 // Function: FPDF_StructElement_CountChildren

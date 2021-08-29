@@ -9,41 +9,50 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import arte.programar.materialfile.MaterialFilePicker
+import arte.programar.materialfile.sample.PermissionActivity
 import arte.programar.materialfile.ui.FilePickerActivity
 import arte.programar.pdfium.Pdfium
 import arte.programar.pdfium.util.Size
-import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.util.regex.Pattern
 
 class MainActivity : PermissionActivity() {
 
-    // Variables
     private var TAG: String = MainActivity::class.java.simpleName
-    private val FILE_PICKER_REQUEST_CODE: Int = 989
 
+    // Variables
+    private lateinit var image: ImageView
+
+    private val startForResultFiles = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        onActivityResult(result.resultCode, result.data)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        image = findViewById(R.id.image)
 
         // Request Permission
         requestAppPermissions(
             arrayOf(
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ),
-            R.string.app_name, 39
+            )
         )
     }
 
-    override fun onPermissionsGranted(requestCode: Int) {
+    override fun onPermissionsGranted() {
         startFileExplorer()
     }
 
-    override fun onPermissionDenied(requestCode: Int) {
+    override fun onPermissionsDenied(permissions: Array<String>) {
         Toast.makeText(applicationContext, "Permission required", Toast.LENGTH_LONG).show()
     }
 
@@ -53,16 +62,18 @@ class MainActivity : PermissionActivity() {
             .withFilter(Pattern.compile(".*\\.(pdf|PDF)$"))
             .withPath(Environment.DIRECTORY_DOWNLOADS)
             .withTitle("PDFium Test")
-            .withRequestCode(FILE_PICKER_REQUEST_CODE)
+            .withActivityResultApi(startForResultFiles)
             .start()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+    private fun onActivityResult(resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_OK) {
+            val path: String? = data?.getStringExtra(FilePickerActivity.RESULT_FILE_PATH)
 
-        if (requestCode == FILE_PICKER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            val filePath: String? = data!!.getStringExtra(FilePickerActivity.RESULT_FILE_PATH)
-            renderPage(filePath)
+            if (path != null) {
+                val filePath: String? = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH)
+                renderPage(filePath)
+            }
         }
     }
 
